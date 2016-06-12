@@ -1,0 +1,104 @@
+
+<!-- BEGIN PAGE BREADCRUMB -->
+<ul class="page-breadcrumb breadcrumb">
+    <li>
+        <a href="#">Home</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li class="active"> Dashboard </li>
+</ul>
+<!-- END PAGE BREADCRUMB -->
+<!-- BEGIN MAIN CONTENT -->
+<div ng-controller="DashboardController">
+    <!-- BEGIN DASHBOARD STATS -->
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat blue">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number"> {{orders.length}} </div>
+                    <div class="desc"> Orders </div>
+                </div>
+                <a class="more" href="#"> View more
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat red">
+                <div class="visual">
+                    <i class="fa fa-bar-chart-o"></i>
+                </div>
+                <div class="details">
+                    <div class="number"> {{totalUser.length}} </div>
+                    <div class="desc"> Total Users </div>
+                </div>
+                <a class="more" href="#"> View more
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat green">
+                <div class="visual">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <div class="details">
+                    <div class="number"> {{totalChef.length}} </div>
+                    <div class="desc"> Total Chefs </div>
+                </div>
+                <a class="more" href="#"> View more
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat purple">
+                <div class="visual">
+                    <i class="fa fa-globe"></i>
+                </div>
+                <div class="details">
+                    <div class="number"> 89</div>
+                    <div class="desc"> Total HC </div>
+                </div>
+                <a class="more" href="#"> View more
+                    <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- END DASHBOARD STATS -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-dark">
+                            <i class="icon-settings font-dark"></i>
+                            <span class="caption-subject bold uppercase"> Orders</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 pull-right">
+                        <div class="input-group">
+                            <input type="text" id="search" placeholder="search" name="search" class="form-control" ng-change="searchOrders()" ng-model="search"/>
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div id="orderGrid" ng-if="orderGridOptions.data" ui-grid="orderGridOptions" ui-grid-selection ui-grid-pagination class="grid"></div>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+    </div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS & CSS -->
+<script>
+    //TableDatatablesManaged.init();
+</script>
+<!-- BEGIN MAIN JS & CSS -->

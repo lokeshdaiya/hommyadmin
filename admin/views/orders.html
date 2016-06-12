@@ -1,0 +1,44 @@
+
+<!-- BEGIN PAGE BREADCRUMB -->
+<ul class="page-breadcrumb breadcrumb">
+    <li>
+        <a href="#">Home</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li class="active"> Dashboard </li>
+</ul>
+<!-- END PAGE BREADCRUMB -->
+<!-- BEGIN MAIN CONTENT -->
+<div>
+    <div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase"> Orders</span>
+                </div>
+            </div>
+            <div class="col-sm-4 pull-right">
+                <div class="input-group">
+                    <input type="text" id="search" placeholder="search" name="search" class="form-control" ng-change="searchOrders()" ng-model="search" />
+                    <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="orderGrid" ng-if="orderGridOptions.data" ui-grid="orderGridOptions" ui-grid-selection ui-grid-pagination ui-grid-edit class="grid"></div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS & CSS -->
+<script>
+    //TableDatatablesManaged.init();
+</script>
+<!-- BEGIN MAIN JS & CSS -->
