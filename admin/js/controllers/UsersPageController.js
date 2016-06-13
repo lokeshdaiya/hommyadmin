@@ -38,32 +38,30 @@ angular.module('MetronicApp').controller('UsersPageController', function ($rootS
         $scope.userGridOptions.data = $filter("filter")($scope.hommyUsers, $scope.search)
     }
 
+    //open edit modal
     $scope.editRow = function (row) {
-
         //schema for form
         $scope.schema = {
             "type": "object",
-            "title": "editUser"
-            //"properties": {
-            //    "password": "string",
-            //    "name": "string",
-            //    "address": {
-            //        "_id": "string",
-            //        "addressType": "string",
-            //        "address": "string",
-            //        "city": "string",
-            //        "area": "string",
-            //        "loc": [
-            //          "string"
-            //        ]
-            //    }
-            //}
+            "title": "editUser",
+            "properties": {
+                "name": { "type": "string", title: "name" },
+                //"email": { "type": "string", title: "email" },
+                "dob": { "type": "string", title: "Data of Birth" },
+                //"address.addressType": {type:"string",title:"Address Type"},
+                //"address.address": {type:"string",title:"Address"},
+                //"address.city": {type:"string",title:"City"},
+                //"address.area": {type:"string",title:"Area"}
+                
+            }
         }
                  
         
         $scope.form = ["*"];
-        console.log(row);
-        $scope.model = angular.copy(row);
+        $scope.model = angular.copy({ name: row.entity.name, dob: row.entity.dob });//add more field if needed to update
+        //take index to update grid after save
+        $scope.editIndex = $scope.userGridOptions.data.indexOf(row.entity);
+        $scope.editUserId = row._id;
 
         $scope.modalInstance = $modal.open({
             templateUrl: 'views/edit-modal.html',
@@ -72,24 +70,78 @@ angular.module('MetronicApp').controller('UsersPageController', function ($rootS
         });
     }
 
+    //update row
     $scope.save = function () {
-        console.log($scope.model)
-        //data to be store
-        var updatedArray = {
-            orderStatus: $scope.model.orderStatus
-        }
-        console.log(updatedArray);
-
-        //update order
-        orderService.updateOrder($scope.model._id, updatedArray, function () {
-            for (i = 0; i < $scope.orderGridOptions.data.length; i++) {
-                if ($scope.orderGridOptions.data[i].orderId == $scope.model.orderId) {
-                    $scope.orderGridOptions.data[i].orderStatus = $scope.model.orderStatus
-                }
+        //update user
+        userService.updateHommyUser($scope.model, $scope.editUserId, function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.userGridOptions.data[$scope.editIndex]=response.data
+                //for (i = 0; i < $scope.userGridOptions.data.length; i++) {
+                //    if ($scope.userGridOptions.data[i]._id == $scope.editUserId) {
+                //        //$scope.userGridOptions.data[i].orderStatus = $scope.model
+                //        for (var property in $scope.model) {
+                //            $scope.userGridOptions.data[i][property] = $scope.model[property]
+                //        }
+                //    }
+                //}
+                $scope.modalInstance.close();
+                alert("Updated row successfully");
             }
-            $scope.modalInstance.close();
-            alert("Updated row successfully");
+            else {
+                $scope.modalInstance.close();
+                alert("Failed to updated row");
+            }
 
         })
     }
+
+    //open add mdoal
+    $scope.openAddModal = function () {
+        //schema for form
+        $scope.addschema = {
+            "type": "object",
+            "title": "AddUser",
+            "properties": {
+                "name": { type: "string", title: "Name" },
+                "email": { type: "string", title: "Email" },
+                "mobile": { type: "string", title: "mobile" },
+                "password": { type: "string", title: "Password" },
+                "dob": { type: "string", title: "DOB", "format": "date" },
+                "address": {
+                    "type": "object",
+                    "properties": {
+                        "addressType": { type: "string", title: "Address Type" },
+                        "address": { type: "string", title: "Address" },
+                        "city": { type: "string", title: "city" },
+                        "area": { type: "string", title: "area" },
+                        "isDefault": { type: "boolean", title: "isDefault" }
+                    }
+                }
+            }
+        }
+
+        $scope.addform = ["*"];
+        $scope.addmodel = { isDefault: true };
+
+        $scope.modalInstance = $modal.open({
+            templateUrl: 'views/add-modal.html',
+            controller: "UsersPageController",
+            scope: $scope
+        });
+    }
+
+
+    //add new row 
+    $scope.addRow = function () {
+        $scope.addmodel.isChef = false;
+        userService.addUser($scope.addmodel, function (response) {
+            console.log(response)
+            if (response.status == 200) {
+                alert("user Added successfully")
+            }
+        })
+
+    }
+
 });

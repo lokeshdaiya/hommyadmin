@@ -66,7 +66,7 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
                     }
         $scope.form = ["*"];
 
-        $scope.model = angular.copy(row);
+        $scope.model = angular.copy(row.entity);
 
         $scope.modalInstance=$modal.open({
             templateUrl: 'views/edit-modal.html',
