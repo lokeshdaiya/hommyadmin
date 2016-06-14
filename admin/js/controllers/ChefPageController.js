@@ -43,7 +43,7 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
         //schema for form
         $scope.schema = {
             "type": "object",
-            "title": "editUser",
+            "title": "editChef",
             "properties": {
                 "name": { "type": "string", title: "name" },
                 "email": { "type": "string", title: "email" },
@@ -58,7 +58,7 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
 
         $scope.modalInstance = $modal.open({
             templateUrl: 'views/edit-modal.html',
-            controller: "UsersPageController",
+            controller: "ChefPageController",
             scope: $scope
         });
     }
