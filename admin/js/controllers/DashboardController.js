@@ -18,6 +18,20 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
         var gridData = {};
         $scope.totalChef = $filter('filter')(data, { isChef: true });
         $scope.totalUser = $filter('filter')(data, { isChef: false });
+        var result=$filter("groupBy")(data,"address[0].area");
+        var userGridArray=[];
+        angular.forEach(result,function(value,key){
+            var totalChef = $filter('filter')(data, { isChef: true });
+            var totalUser = $filter('filter')(data, { isChef: false });
+            var jsonObject={
+                            "Area":key,
+                            "TotalChef":totalChef.length,
+                            "TotalUser":totalUser.length
+            }
+            userGridArray.push(jsonObject);
+
+        })
+        console.log(userGridArray);
     }
     $scope.showOrderGrid = function (data) {
         $scope.orderGridOptions = {
