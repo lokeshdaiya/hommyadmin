@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('ChefPageController', function ($rootScope, $scope, $http, $timeout, orderService, userService, kitchenService, $filter) {
+angular.module('MetronicApp').controller('ChefPageController', function ($rootScope, $scope, $http, $timeout, orderService, userService, kitchenService, $filter,$modal) {
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         App.initAjax();
@@ -8,6 +8,11 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
             $scope.hommyChefs = $filter('filter')(response, { isChef: true });
             $scope.showChefGrid($scope.hommyChefs);
         })
+
+        // set sidebar closed and body solid layout mode
+        $rootScope.settings.layout.pageContentWhite = true;
+        $rootScope.settings.layout.pageBodySolid = false;
+        $rootScope.settings.layout.pageSidebarClosed = false;
     });
     $scope.showChefGrid = function (data) {
         $scope.chefGridOptions = {
@@ -33,10 +38,106 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
         $scope.chefGridOptions.data = $filter("filter")($scope.hommyChefs, $scope.search)
     }
 
+    $scope.editRow = function (row) {
+
+        //schema for form
+        $scope.schema = {
+            "type": "object",
+            "title": "editUser",
+            "properties": {
+                "name": { "type": "string", title: "name" },
+                "email": { "type": "string", title: "email" },
+                "dob": { "type": "string", title: "Data of Birth" }
+            }
+        }
 
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageContentWhite = true;
-    $rootScope.settings.layout.pageBodySolid = false;
-    $rootScope.settings.layout.pageSidebarClosed = false;
+        $scope.form = ["*"];
+
+        $scope.model = angular.copy(row.entity);
+
+        $scope.modalInstance = $modal.open({
+            templateUrl: 'views/edit-modal.html',
+            controller: "UsersPageController",
+            scope: $scope
+        });
+    }
+
+    $scope.save = function () {
+        console.log($scope.model)
+        //data to be store
+        var updatedArray = {
+            orderStatus: $scope.model.orderStatus
+        }
+        console.log(updatedArray);
+
+        //update order
+        orderService.updateOrder($scope.model._id, updatedArray, function () {
+            for (i = 0; i < $scope.orderGridOptions.data.length; i++) {
+                if ($scope.orderGridOptions.data[i].orderId == $scope.model.orderId) {
+                    $scope.orderGridOptions.data[i].orderStatus = $scope.model.orderStatus
+                }
+            }
+            $scope.modalInstance.close();
+            alert("Updated row successfully");
+
+        })
+    }
+
+
+    $scope.openAddModal = function () {
+        //schema for form
+        $scope.addschema = {
+            "type": "object",
+            "title": "Add Chef",
+            "properties": {
+                "chefName": { type: "string" },
+                "name": { type: "string", title: "kitchenName" },
+                "email": { type: "string" },
+                "mobile": { type: "string" },
+                "password": { type: "string" },
+                "secondaryPhone": { type: "string" },
+                "deliveryTime": { type: "number" },
+                "address": { type: "string", title: "Address" },
+                "area": { type: "string" },
+                "city": { type: "string" },
+                "loc": { type: "string" },
+                "offerMessage": { type: "string" },
+                "hommyCommission": { type: "nnumber" },
+                "pureVeg": { type: "boolean" },
+                "isEnabled": { type: "boolean" },
+                "bankDetails": {
+                    type: "object",
+                    properties: {
+                        "accHolder": { type: "string" },
+                        "accNumber": { type: "string" },
+                        "IFSC": { type: "string" },
+                        "bankName": { type: "string" },
+                        "branchArea": {type: "string"}
+                        }
+                    }
+                }
+            }
+        
+
+        $scope.addform = ["*"];
+        $scope.addmodel = {};
+
+        $scope.modalInstance = $modal.open({
+            templateUrl: 'views/add-modal.html',
+            controller: "ChefPageController",
+            scope: $scope
+        });
+    }
+
+    $scope.addRow = function () {
+        kitchenService.addKitchen($scope.addmodel, function (response) {
+            console.log(response)
+            if (response.status == 200) {
+                alert("Chef Added successfully")
+            }
+        })
+
+    }
+
 });

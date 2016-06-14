@@ -17,6 +17,7 @@ var MetronicApp = angular.module("MetronicApp", [
     'ui.grid.edit',
     'ui.bootstrap',
     'schemaForm'
+    
 
 ]); 
 

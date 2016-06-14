@@ -250,6 +250,15 @@ angular.module('hommyAdmin.services',[])
              })
          }
 
+         userService.updateHommyUser = function (body, userid,callback) {
+             var userApiUrl = $rootScope.baseApiUrl + "/users/" +userid;
+             var headers = { 'authorization': $rootScope.authKey };
+             httpService.PutData(userApiUrl, body, headers, function (response) {
+                 userService.userDetails = response;
+                 callback(response);
+             })
+         }
+
          return userService;
      })
 

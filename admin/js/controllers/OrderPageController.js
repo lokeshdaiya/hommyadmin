@@ -1,5 +1,5 @@
 /* Setup general page controller */
-angular.module('MetronicApp').controller('OrderPageController',function ($rootScope, $scope, settings, orderService,$filter) {
+angular.module('MetronicApp').controller('OrderPageController',function ($rootScope, $scope, settings, orderService,$filter,$modal) {
     $scope.$on('$viewContentLoaded', function() {   
     	// initialize core components
         App.initAjax();
@@ -63,7 +63,7 @@ angular.module('MetronicApp').controller('OrderPageController',function ($rootSc
         }
         $scope.form = ["*"];
 
-        $scope.model = angular.copy(row);
+        $scope.model = angular.copy(row.entity);
 
         $scope.modalInstance = $modal.open({
             templateUrl: 'views/edit-modal.html',
