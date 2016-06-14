@@ -10,19 +10,21 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
         })
 
         userService.getAllUsers(function (response) {
-            $scope.createUserGridData(response);
+            $scope.createUserGridData(response,function(data){
+                $scope.showUserGrid(data);
+            });
         })
     });
    
-    $scope.createUserGridData = function (data) {
+    $scope.createUserGridData = function (data,callback) {
         var gridData = {};
         $scope.totalChef = $filter('filter')(data, { isChef: true });
         $scope.totalUser = $filter('filter')(data, { isChef: false });
         var result=$filter("groupBy")(data,"address[0].area");
         var userGridArray=[];
         angular.forEach(result,function(value,key){
-            var totalChef = $filter('filter')(data, { isChef: true });
-            var totalUser = $filter('filter')(data, { isChef: false });
+            var totalChef = $filter('filter')(value, { isChef: true });
+            var totalUser = $filter('filter')(value, { isChef: false });
             var jsonObject={
                             "Area":key,
                             "TotalChef":totalChef.length,
@@ -32,6 +34,7 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
 
         })
         console.log(userGridArray);
+        callback(userGridArray);
     }
     $scope.showOrderGrid = function (data) {
         $scope.orderGridOptions = {
@@ -61,6 +64,7 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
         $scope.orderGridOptions.data = data;
     }
 
+    
     $scope.searchOrders = function () {
         $scope.orderGridOptions.data = $filter("filter")($scope.orders,$scope.search)
     }
@@ -108,6 +112,28 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
             alert("Updated row successfully");
             
         })
+    }
+
+    $scope.showUserGrid=function(data){
+          
+          $scope.userGridOptions = {
+            paginationPageSizes: [10, 25, 50, 75],
+            paginationPageSize: 10,//initial item number to be display in grid
+            //enableRowSelection: true,//for row selection
+            //enableSelectAll: true,
+            showGridFooter: true,//show grid footer
+            enableColumnMenus: false,//remove column menu
+        };
+
+        $scope.userGridOptions.columnDefs = [
+          
+          { name: 'Area', field: 'Area' },
+          { name: 'TotalChef', field: 'TotalChef' },
+          { name: 'TotalUser', field: 'TotalUser' },
+
+        ]
+
+        $scope.userGridOptions.data = data;
     }
 
     // set sidebar closed and body solid layout mode
