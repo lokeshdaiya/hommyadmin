@@ -21,6 +21,7 @@ deploy:
       code: |
         pwd
         ls -la
+        date
         ssh -i $PRIVATEKEY_PATH -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@128.199.170.13 rm -rf hommyadmin/*
         scp -i $PRIVATEKEY_PATH -o StrictHostKeyChecking=no -o UserKnownHostsFile=no -r admin root@128.199.170.13:/root/hommyadmin
   - script:
