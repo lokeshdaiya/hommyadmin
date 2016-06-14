@@ -118,8 +118,6 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
                     }
                 }
             }
-        
-
         $scope.addform = ["*"];
         $scope.addmodel = {};
 
