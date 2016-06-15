@@ -16,25 +16,6 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
         })
     });
    
-    $scope.createUserGridData = function (data,callback) {
-        var gridData = {};
-        $scope.totalChef = $filter('filter')(data, { isChef: true });
-        $scope.totalUser = $filter('filter')(data, { isChef: false });
-        var result=$filter("groupBy")(data,"address[0].area");
-        var userGridArray=[];
-        angular.forEach(result,function(value,key){
-            var totalChef = $filter('filter')(value, { isChef: true });
-            var totalUser = $filter('filter')(value, { isChef: false });
-            var jsonObject={
-                            "Area":key,
-                            "TotalChef":totalChef.length,
-                            "TotalUser":totalUser.length
-            }
-            userGridArray.push(jsonObject);
-
-        })
-        callback(userGridArray);
-    }
     $scope.showOrderGrid = function (data) {
         $scope.orderGridOptions = {
             paginationPageSizes: [10, 25, 50, 75],
@@ -113,6 +94,31 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
         })
     }
 
+     $scope.createUserGridData = function (data,callback) {
+        var gridData = {};
+        $scope.totalChef = $filter('filter')(data, { isChef: true });
+        $scope.totalUser = $filter('filter')(data, { isChef: false });
+        var result=$filter("groupBy")(data,"address[0].area");
+        var userGridArray=[];
+        angular.forEach(result,function(value,key){
+            var totalChef = $filter('filter')(value, { isChef: true });
+            var totalUser = $filter('filter')(value, { isChef: false });
+            var jsonObject={
+                            "Area":key,
+                            "TotalChef":totalChef.length,
+                            "TotalUser":totalUser.length,
+                            "TotalDE":"NA",
+                            "LiveChef":"NA",
+                            "LiveUser":"NA",
+                            "LiveDE":"NA"
+            }
+            userGridArray.push(jsonObject);
+
+        })
+        $scope.users=userGridArray;
+        callback(userGridArray);
+    }
+
     $scope.showUserGrid=function(data){
           
           $scope.userGridOptions = {
@@ -127,13 +133,22 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
         $scope.userGridOptions.columnDefs = [
           
           { name: 'Area', field: 'Area' },
-          { name: 'TotalChef', field: 'TotalChef' },
-          { name: 'TotalUser', field: 'TotalUser' },
+          { name: 'Total Chef', field: 'TotalChef' },
+          { name: 'Total User', field: 'TotalUser' },
+          { name: 'Total DE', field: 'TotalDE' },
+          { name: 'Live Chef', field: 'LiveChef' },
+          { name: 'Live User', field: 'LiveUser' },
+          { name: 'Live DE', field: 'LiveDE' },
 
         ]
 
         $scope.userGridOptions.data = data;
     }
+
+    $scope.searchUsers=function(){
+            $scope.userGridOptions.data = $filter("filter")($scope.users,$scope.searchUser)
+    }
+
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageContentWhite = true;
