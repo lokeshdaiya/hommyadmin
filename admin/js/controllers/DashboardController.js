@@ -33,7 +33,6 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
             userGridArray.push(jsonObject);
 
         })
-        console.log(userGridArray);
         callback(userGridArray);
     }
     $scope.showOrderGrid = function (data) {
