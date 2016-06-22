@@ -89,21 +89,43 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
         //schema for form
         $scope.addschema = {
             "type": "object",
-            "title": "AddUser",
+            "title": "Add Chef",
             "properties": {
-                "name": { type: "string", title: "Name" },
-                "email": { type: "string", title: "Email" },
-                "mobile": { type: "string", title: "mobile" },
-                "password": { type: "string", title: "Password" }
+                "chefName": { type: "string" },
+                "name": { type: "string", title: "kitchenName" },
+                "email": { type: "string" },
+                "mobile": { type: "string" },
+                "password": { type: "string" },
+                "secondaryPhone": { type: "string" },
+                "deliveryTime": { type: "number" },
+                "address": { type: "string", title: "Address" },
+                "area": { type: "string" },
+                "city": { type: "string" },
+                "loc": { type: "string" },
+                "offerMessage": { type: "string" },
+                "hommyCommission": { type: "nnumber" },
+                "pureVeg": { type: "boolean" },
+                "isEnabled": { type: "boolean" },
+                "bankDetails": {
+                    type: "object",
+                    properties: {
+                        "accHolder": { type: "string" },
+                        "accNumber": { type: "string" },
+                        "IFSC": { type: "string" },
+                        "bankName": { type: "string" },
+                        "branchArea": {type: "string"}
+                        }
+                    }
+                }
             }
-        }
+        
 
         $scope.addform = ["*"];
         $scope.addmodel = {};
 
         $scope.modalInstance = $modal.open({
             templateUrl: 'views/add-modal.html',
-            controller: "UsersPageController",
+            controller: "ChefPageController",
             scope: $scope
         });
     }
@@ -112,7 +134,7 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
         kitchenService.addKitchen($scope.addmodel, function (response) {
             console.log(response)
             if (response.status == 200) {
-                alert("user Added successfully")
+                alert("Chef Added successfully")
             }
         })
 

@@ -110,19 +110,19 @@ angular.module('MetronicApp').controller('UsersPageController', function ($rootS
                 "dob": { type: "string", title: "DOB", "format": "date" },
                 "address": {
                     "type": "object",
+                    "title":'',
                     "properties": {
                         "addressType": { type: "string", title: "Address Type" },
                         "address": { type: "string", title: "Address" },
                         "city": { type: "string", title: "city" },
-                        "area": { type: "string", title: "area" },
-                        "isDefault": { type: "boolean", title: "isDefault" }
+                        "area": { type: "string", title: "area" }
                     }
                 }
             }
         }
 
         $scope.addform = ["*"];
-        $scope.addmodel = { isDefault: true };
+        $scope.addmodel = { };
 
         $scope.modalInstance = $modal.open({
             templateUrl: 'views/add-modal.html',
@@ -131,14 +131,16 @@ angular.module('MetronicApp').controller('UsersPageController', function ($rootS
         });
     }
 
-
     //add new row 
     $scope.addRow = function () {
         $scope.addmodel.isChef = false;
         userService.addUser($scope.addmodel, function (response) {
             console.log(response)
             if (response.status == 200) {
-                alert("user Added successfully")
+                $scope.modalInstance.close();
+                alert("User Added successfully")
+            } else {
+                alert("Opps...Something went wrong..please check details again")
             }
         })
 
