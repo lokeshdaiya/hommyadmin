@@ -10,15 +10,12 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
         })
 
         userService.getAllUsers(function (response) {
-            $scope.createUserGridData(response);
+            $scope.createUserGridData(response,function(data){
+                $scope.showUserGrid(data);
+            });
         })
     });
    
-    $scope.createUserGridData = function (data) {
-        var gridData = {};
-        $scope.totalChef = $filter('filter')(data, { isChef: true });
-        $scope.totalUser = $filter('filter')(data, { isChef: false });
-    }
     $scope.showOrderGrid = function (data) {
         $scope.orderGridOptions = {
             paginationPageSizes: [10, 25, 50, 75],
@@ -47,6 +44,7 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
         $scope.orderGridOptions.data = data;
     }
 
+    
     $scope.searchOrders = function () {
         $scope.orderGridOptions.data = $filter("filter")($scope.orders,$scope.search)
     }
@@ -95,6 +93,62 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
             
         })
     }
+
+     $scope.createUserGridData = function (data,callback) {
+        var gridData = {};
+        $scope.totalChef = $filter('filter')(data, { isChef: true });
+        $scope.totalUser = $filter('filter')(data, { isChef: false });
+        var result=$filter("groupBy")(data,"address[0].area");
+        var userGridArray=[];
+        angular.forEach(result,function(value,key){
+            var totalChef = $filter('filter')(value, { isChef: true });
+            var totalUser = $filter('filter')(value, { isChef: false });
+            var jsonObject={
+                            "Area":key,
+                            "TotalChef":totalChef.length,
+                            "TotalUser":totalUser.length,
+                            "TotalDE":"NA",
+                            "LiveChef":"NA",
+                            "LiveUser":"NA",
+                            "LiveDE":"NA"
+            }
+            userGridArray.push(jsonObject);
+
+        })
+        $scope.users=userGridArray;
+        callback(userGridArray);
+    }
+
+    $scope.showUserGrid=function(data){
+          
+          $scope.userGridOptions = {
+            paginationPageSizes: [10, 25, 50, 75],
+            paginationPageSize: 10,//initial item number to be display in grid
+            //enableRowSelection: true,//for row selection
+            //enableSelectAll: true,
+            showGridFooter: true,//show grid footer
+            enableColumnMenus: false,//remove column menu
+        };
+
+        $scope.userGridOptions.columnDefs = [
+          
+          { name: 'Area', field: 'Area' },
+          { name: 'Total Chef', field: 'TotalChef' },
+          { name: 'Total User', field: 'TotalUser' },
+          { name: 'Total DE', field: 'TotalDE' },
+          { name: 'Live Chef', field: 'LiveChef' },
+          { name: 'Live User', field: 'LiveUser' },
+          { name: 'Live DE', field: 'LiveDE' },
+
+        ]
+
+        $scope.userGridOptions.data = data;
+    }
+
+    $scope.searchUsers=function(){
+            $scope.userGridOptions.data = $filter("filter")($scope.users,$scope.searchUser)
+    }
+
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageContentWhite = true;

@@ -317,6 +317,25 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         })
 
         // User Profile Dashboard
+        .state("login", {
+            url: "/login",
+            templateUrl: "views/login.html",
+            data: { pageTitle: 'User Login' },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/GeneralPageController.js',
+                        ]
+                    });
+                }]
+            }
+        })
+
+        // User Profile Dashboard
         .state("profile.dashboard", {
             url: "/dashboard",
             templateUrl: "views/profile/dashboard.html",

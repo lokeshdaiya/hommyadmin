@@ -1,0 +1,28 @@
+box: nodesource/trusty
+
+build:
+  steps:
+    - cp -r assets/ admin/
+
+deploy:
+  steps:
+  - add-to-known_hosts:
+      hostname: 128.199.170.13
+  - mktemp:
+      envvar: PRIVATEKEY_PATH
+  - create-file:
+      name: write key
+      filename: $PRIVATEKEY_PATH
+      content: $DEPLOYKEY_PRIVATE
+      overwrite: true
+      hide-from-log: true
+  - script:
+      name: transfer application
+      code: |
+        pwd
+        ls -la
+        ssh -i $PRIVATEKEY_PATH -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@128.199.170.13 rm -rf hommyadmin/*
+        scp -i $PRIVATEKEY_PATH -o StrictHostKeyChecking=no -o UserKnownHostsFile=no -r admin root@128.199.170.13:/root/hommyadmin
+  - script:
+      name: start application
+      code: ssh -i $PRIVATEKEY_PATH -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@128.199.170.13 sudo service nginx restart

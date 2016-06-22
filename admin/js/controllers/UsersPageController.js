@@ -123,7 +123,6 @@ angular.module('MetronicApp').controller('UsersPageController', function ($rootS
 
         $scope.addform = ["*"];
         $scope.addmodel = { };
-
         $scope.modalInstance = $modal.open({
             templateUrl: 'views/add-modal.html',
             controller: "UsersPageController",
