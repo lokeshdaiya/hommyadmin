@@ -25,6 +25,13 @@ angular.module('MetronicApp').controller('DashboardController', function ($rootS
             showGridFooter: true,//show grid footer
             enableColumnMenus: false,//remove column menu
         };
+        $scope.orderGridOptions.onRegisterApi = function (gridApi) {
+            $scope.gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope, function () {
+                $scope.selection = gridApi.selection.getSelectedRows();
+                console.log($scope.selection);
+            });
+        }
         $scope.orderGridOptions.columnDefs = [
           {
               name: 'Order Id', cellTemplate: '<div>' +
