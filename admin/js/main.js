@@ -114,14 +114,14 @@ initialization can be disabled and Layout.init() should be called on page load c
 /* Setup Layout Part - Header */
 MetronicApp.controller('HeaderController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
-        Layout.initHeader(); // init header
+        //Layout.initHeader(); // init header
     });
 }]);
 
 /* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
-        Layout.initSidebar(); // init sidebar
+MetronicApp.controller('SidebarController', ['$scope','$rootScope', function($scope,$rootScope) {
+    $scope.$on('$includeContentLoaded', function () {
+        //Layout.initSidebar(); // init sidebar
     });
 }]);
 
@@ -151,14 +151,14 @@ MetronicApp.controller('ThemePanelController', ['$scope', function($scope) {
 /* Setup Layout Part - Footer */
 MetronicApp.controller('FooterController', ['$scope', function($scope) {
     $scope.$on('$includeContentLoaded', function() {
-        Layout.initFooter(); // init footer
+        //Layout.initFooter(); // init footer
     });
 }]);
 
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     // Redirect any unmatched url
-    $urlRouterProvider.otherwise("/dashboard.html");  
+    $urlRouterProvider.otherwise("/login.html");  
     
     $stateProvider
 
@@ -318,7 +318,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
         // User Profile Dashboard
         .state("login", {
-            url: "/login",
+            url: "/login.html",
             templateUrl: "views/login.html",
             data: { pageTitle: 'User Login' },
             controller: "GeneralPageController",

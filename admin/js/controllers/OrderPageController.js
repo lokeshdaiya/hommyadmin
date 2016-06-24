@@ -32,9 +32,9 @@ angular.module('MetronicApp').controller('OrderPageController',function ($rootSc
                      '<a href="#{{row.entity.orderId}}">{{row.entity.orderId}}</a>' +
                      '</div>'
           },
-          { name: 'Delivery Time', field: 'deliveryTime' },
-          { name: 'Order Time', field: 'createdAt' },
-          { name: 'Delivery Type', field: 'deliveryType' },
+          { name: 'Delivery Time', field: 'deliveryTime', type: 'date', cellFilter: 'date:\'h:mm a dd-MM-yyyy\'' },
+          { name: 'Order Time', field: 'createdAt', type: 'date', cellFilter: 'date:\'h:mm a dd-MM-yyyy\'' },
+          //{ name: 'Delivery Type', field: 'deliveryType' },
           { name: 'Area', field: 'shippingArea' },
           { name: 'Status', field: 'orderStatus' },
           {
