@@ -106,7 +106,14 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
                 "hommyCommission": { type: "nnumber" },
                 "pureVeg": { type: "boolean" },
                 "isEnabled": { type: "boolean" },
+                "timings": {
+                    type: "array",
+                    items: {
+                        type:"string"
+                    }
+                },
                 "bankDetails": {
+                    title:"Bank Details",
                     type: "object",
                     properties: {
                         "accHolder": { type: "string" },
@@ -118,7 +125,14 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
                     }
                 }
             }
-        $scope.addform = ["*"];
+        $scope.addform = ["*",{
+            "key": "timings",
+            "add": "Add",
+            "style": {
+                "add": "btn-success"
+            },
+            "items": [{ "key": "timings", "type": "string" }]
+        }, ];
         $scope.addmodel = {};
 
         $scope.modalInstance = $modal.open({
