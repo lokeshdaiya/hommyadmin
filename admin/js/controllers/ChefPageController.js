@@ -94,7 +94,7 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
                 "chefName": { type: "string" },
                 "name": { type: "string", title: "kitchenName" },
                 "email": { type: "string" },
-                "mobile": { type: "string" },
+                "mobile": { type: "number" },
                 "password": { type: "string" },
                 "secondaryPhone": { type: "string" },
                 "deliveryTime": { type: "number" },
@@ -125,14 +125,39 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
                     }
                 }
             }
-        $scope.addform = ["*",{
-            "key": "timings",
-            "add": "Add",
-            "style": {
-                "add": "btn-success"
+        $scope.addform = [
+            {
+                key: "chefName",
+                title: "Chef Name"
             },
-            "items": [{ "key": "timings", "type": "string" }]
-        }, ];
+            {
+                key: "name",
+                title: "Kitchen"
+            },
+            {
+                key: "email",
+                title: "Email",
+                type:"email"
+            },
+            {
+                key: "mobile",
+                title: "Mobile",
+                type:"number"
+            },
+            {
+                key: "password",
+                title: "Password",
+                type: "password"
+            },
+            {
+                "key": "timings",
+                "add": "Add",
+                "style": {
+                    "add": "btn-success"
+                },
+                "items": [{ "key": "timings", "type": "date" }]
+            },
+        ];
         $scope.addmodel = {};
 
         $scope.modalInstance = $modal.open({
