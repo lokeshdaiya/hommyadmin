@@ -1,5 +1,5 @@
-angular.module('MetronicApp').controller('ChefPageController', function ($rootScope, $scope, $http, $timeout, orderService, userService, kitchenService, $filter,$modal) {
-    $scope.$on('$viewContentLoaded', function() {   
+angular.module('MetronicApp').controller('ChefPageController', function ($rootScope, $scope, $http, $timeout, orderService, userService, kitchenService, $filter, $modal) {
+    $scope.$on('$viewContentLoaded', function () {
         // initialize core components
         App.initAjax();
 
@@ -26,7 +26,7 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
         $scope.chefGridOptions.columnDefs = [
             { name: "name" },
             { name: "email" },
-            {name: "address", field:"address[0].area"},
+            { name: "address", field: "address[0].area" },
             {
                 name: 'Edit', cellTemplate: 'views/edit-button.html', width: 50
             }
@@ -50,7 +50,6 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
                 "dob": { "type": "string", title: "Data of Birth" }
             }
         }
-
 
         $scope.form = ["*"];
 
@@ -91,73 +90,89 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
             "type": "object",
             "title": "Add Chef",
             "properties": {
-                "chefName": { type: "string" },
-                "name": { type: "string", title: "kitchenName" },
-                "email": { type: "string" },
-                "mobile": { type: "number" },
-                "password": { type: "string" },
-                "secondaryPhone": { type: "string" },
-                "deliveryTime": { type: "number" },
-                "address": { type: "string", title: "Address" },
-                "area": { type: "string" },
-                "city": { type: "string" },
-                "loc": { type: "string" },
-                "offerMessage": { type: "string" },
-                "hommyCommission": { type: "nnumber" },
-                "pureVeg": { type: "boolean" },
-                "isEnabled": { type: "boolean" },
-                "timings": {
-                    type: "array",
-                    items: {
-                        type:"string"
-                    }
-                },
-                "bankDetails": {
-                    title:"Bank Details",
-                    type: "object",
-                    properties: {
-                        "accHolder": { type: "string" },
-                        "accNumber": { type: "string" },
-                        "IFSC": { type: "string" },
-                        "bankName": { type: "string" },
-                        "branchArea": {type: "string"}
-                        }
-                    }
+                //"chefName": { type: "string", title: "Chef Name"},
+                "name": { type: "string", title: "Chef Name" },
+                "email": { type: "string", title: "Email" },
+                "mobile": { type: "number", title: "Mobile" },
+                "password": { type: "string", title: "Password" },
+                "dob": { type: "string", title: "Date of Birth" },
+                //"secondaryPhone": { type: "string" },
+                //"deliveryTime": { type: "number" },
+                //"address": { type: "string", title: "Address" },
+                //"area": { type: "string" },
+                //"city": { type: "string" },
+                //"loc": { type: "string" },
+                //"offerMessage": { type: "string" },
+                //"hommyCommission": { type: "nnumber" },
+                //"pureVeg": { type: "boolean" },
+                //"isEnabled": { type: "boolean" },
+                //"timings": {
+                //    type: "array",
+                //    items: {
+                //        type:"string"
+                //    }
+                //},
+                //"bankDetails": {
+                //    title:"Bank Details",
+                //    type: "object",
+                //    properties: {
+                //        "accHolder": { type: "string" },
+                //        "accNumber": { type: "string" },
+                //        "IFSC": { type: "string" },
+                //        "bankName": { type: "string" },
+                //        "branchArea": {type: "string"}
+                //        }
+                //    }
+                //}
+                "address": {
+                    "type": "object",
+                    "title": 'Address',
+                    "properties": {
+                        "addressType": { type: "string", title: "Address Type" },
+                        "address": { type: "string", title: "Address" },
+                        "city": { type: "string", title: "City" },
+                        "area": { type: "string", title: "Area" }
+                    },
+                    required: ["addressType", "address", "city", "area"]
                 }
-            }
-        $scope.addform = [
-            {
-                key: "chefName",
-                title: "Chef Name"
             },
-            {
-                key: "name",
-                title: "Kitchen"
-            },
-            {
-                key: "email",
-                title: "Email",
-                type:"email"
-            },
-            {
-                key: "mobile",
-                title: "Mobile",
-                type:"number"
-            },
-            {
-                key: "password",
-                title: "Password",
-                type: "password"
-            },
-            {
-                "key": "timings",
-                "add": "Add",
-                "style": {
-                    "add": "btn-success"
-                },
-                "items": [{ "key": "timings", "type": "date" }]
-            },
-        ];
+            required: ["name", "email", "mobile", "password", "dob"]
+        }
+
+        //$scope.addform = [
+        //    {
+        //        key: "name",
+        //        title: "Chef Name"
+        //    },
+        //    {
+        //        key: "dob",
+        //        title: "Date of Birth"
+        //    },
+        //    {
+        //        key: "email",
+        //        title: "Email",
+        //        type: "email"
+        //    },
+        //    {
+        //        key: "mobile",
+        //        title: "Mobile",
+        //        type: "number"
+        //    },
+        //    {
+        //        key: "password",
+        //        title: "Password",
+        //        type: "password"
+        //    },
+        //    {
+        //        "key": "address",
+        //        "items": [
+        //            { "key": "addressType", "type": "string", "title": "Address Type" },
+        //            { "key": "address", "type": "string", "title": "Address" },
+        //            { "key": "city", "type": "string", "title": "City" },
+        //            { "key": "area", "type": "string", "title": "Area" }]
+        //    },
+        //];
+        $scope.addform = ["*"];
         $scope.addmodel = {};
 
         $scope.modalInstance = $modal.open({
@@ -168,6 +183,7 @@ angular.module('MetronicApp').controller('ChefPageController', function ($rootSc
     }
 
     $scope.addRow = function () {
+        $scope.addmodel.isChef = true;
         kitchenService.addKitchen($scope.addmodel, function (response) {
             console.log(response)
             if (response.status == 200) {
